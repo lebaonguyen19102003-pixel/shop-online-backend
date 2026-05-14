@@ -128,3 +128,43 @@ if(uploadImage) {
   });
 }
 // End Upload Image
+
+// Sort
+const sort = document.querySelector("[sort]");
+if(sort) {
+  let url = new URL(window.location.href);
+
+  const sortSelect = sort.querySelector("[sort-select]");
+  const sortClear = sort.querySelector("[sort-clear]");
+  
+  sortSelect.addEventListener("change", (e) => {
+    const sortString = e.target.value;
+    if(sortString) {
+      const [sortKey, sortValue] = sortString.split("-");
+
+      url.searchParams.set("sortKey", sortKey);
+      url.searchParams.set("sortValue", sortValue);
+      
+      window.location.href = url.href;
+    }
+  });
+
+  // Clear Sort
+  sortClear.addEventListener("click", () => {
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+
+    window.location.href = url.href;
+  });
+
+  // Add Selected for Options
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+
+  if(sortKey && sortValue) {
+    const sortString = `${sortKey}-${sortValue}`;
+    const selectedOption = sortSelect.querySelector(`option[value='${sortString}']`);
+    selectedOption.selected = true;
+  }
+}
+// End Sort
