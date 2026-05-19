@@ -11,7 +11,7 @@ module.exports.index = async (req, res) => {
   };
 
   const records = await ProductCategory.find(find);
-  const newRecords = createTreeHelper.tree(records);
+  const newRecords = createTreeHelper(records);
 
   res.render("admin/pages/products-category/index", {
     titlePage: "Trang Danh Mục Sản Phẩm",
@@ -91,7 +91,7 @@ module.exports.create = async (req, res) => {
   };
 
   const records = await ProductCategory.find(find);
-  const newRecords = createTreeHelper.tree(records);
+  const newRecords = createTreeHelper(records);
 
   res.render("admin/pages/products-category/create", {
     titlePage: "Trang Tạo Mới Danh Mục Sản Phẩm",
@@ -119,10 +119,20 @@ module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const record = await ProductCategory.findOne({ _id: id });
+    const records = await ProductCategory.find({
+      deleted: false
+    });
+
+    const record = await ProductCategory.findOne({
+      _id: id,
+      deleted: false
+    });
+
+    const newRecords = createTreeHelper(records);
 
     res.render("admin/pages/products-category/edit", {
       titlePage: "Trang Sửa Đổi Danh Mục Sản Phẩm",
+      records: newRecords,
       record: record
     });
   } catch (error) {

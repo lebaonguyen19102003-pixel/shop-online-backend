@@ -3,85 +3,74 @@ include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
 block main
-  if (role.permissions.includes("products_create"))
+  if (role.permissions.includes("accounts_create"))
     +alert-success("5000")
     +alert-error("5000")
 
-    h1(class="mb-4") Thêm mới sản phẩm
+    h1(class="mb-4") Tạo tài khoản
 
     form(
-      action=`${prefixAdmin}/products/create`
-      id="form-create-product"
+      action=`${prefixAdmin}/accounts/create`
+      id="form-create-account"
       method="POST"
       enctype="multipart/form-data"
     )
       div(class="form-group")
-        label(for="title") Tiêu đề
+        label(for="fullName") Họ và tên *
         input(
           type="text"
           class="form-control"
-          id="title"
-          name="title"
+          id="fullName"
+          name="fullName"
           required
         )
       div(class="form-group")
-        label(for="category_id") Danh mục
+        label(for="role_id") Nhóm quyền
         select(
-          name="category_id"
-          id="category_id"
+          name="role_id"
+          id="role_id"
           class="form-control"
         )
-          option(value="") -- Chọn danh mục --
-          if(productCategories)
-            +select-tree(productCategories)
+          option(disabled) -- Chọn nhóm quyền --
+          if(roles)
+            each item in roles
+              option(value=item.id) #{item.title}
       div(class="form-group")
-        label(for="desc") Mô tả
-        textarea(
-          class="form-control"
-          id="desc"
-          name="description"
-          rows=5
-        )
-      div(class="form-group")
-        label(for="price") Giá
+        label(for="email") Email *
         input(
-          type="number"
+          type="email"
           class="form-control"
-          id="price"
-          name="price"
-          value="0"
-          min="0"
+          id="email"
+          name="email"
+          required
         )
       div(class="form-group")
-        label(for="discount") % Giảm giá
+        label(for="password") Mật khẩu *
         input(
-          type="number"
+          type="password"
           class="form-control"
-          id="discount"
-          name="discountPercentage"
-          value="0"
-          min="0"
+          id="password"
+          name="password"
+          required
         )
       div(class="form-group")
-        label(for="stock") Số lượng
+        label(for="phone") Số điện thoại
         input(
-          type="number"
+          type="text"
           class="form-control"
-          id="stock"
-          name="stock"
-          value="0"
-          min="0"
+          id="phone"
+          name="phone"
         )
       div(
         class="form-group"
         upload-image
       )
-        label(for="thumbnail") Ảnh
+        label(for="avatar") Ảnh đại diện
         input(
           type="file"
           class="form-control-file"
-          id="thumbnail"
-          name="thumbnail"
+          id="avatar"
+          name="avatar"
           accept="image/*"
           upload-image-input
         )
@@ -89,16 +78,6 @@ block main
           src=""
           upload-image-preview
           class="image-preview"
-        )
-      div(class="form-group")
-        label(for="position") Vị trí
-        input(
-          type="number"
-          class="form-control"
-          id="position"
-          name="position"
-          placeholder="Tự động tăng"
-          min="1"
         )
       div(class="form-group form-check form-check-inline")
         input(
@@ -125,4 +104,4 @@ block main
           class="btn btn-primary"
         ) Tạo mới
 
-    script(src="/admin/js/product.js")
+    script(src="/admin/js/account.js")
