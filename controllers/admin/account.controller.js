@@ -135,10 +135,6 @@ module.exports.editPatch = async (req, res) => {
     return;
   }
 
-  if (req.file) {
-    req.body.avatar = `/uploads/${req.file.filename}`;
-  }
-
   if (req.body.password) {
     req.body.password = md5(req.body.password);
   } else {
