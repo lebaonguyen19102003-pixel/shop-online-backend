@@ -18,6 +18,8 @@ const systemConfig = require("./config/system");
 const routeAdmin = require("./routes/admin/index.route");
 const route = require("./routes/client/index.route");
 
+const socket = require("./sockets/client/index.socket");
+
 database.connect();
 
 const app = express();
@@ -28,31 +30,7 @@ const server = http.createServer(app);
 const io = new Server(server);
 global._io = io;
 
-const Chat = require("./models/chat.model");
-
-_io.on('connection', (socket) => {
-  // CLIENT_SEND_MESSAGE
-  socket.on("CLIENT_SEND_MESSAGE", async (data) => {
-    // Lưu vào database
-    const chat = new Chat({
-      user_id: data.userId,
-      content: data.content
-    });
-    await chat.save();
-
-    // SERVER_RETURN_MESSAGE
-    _io.emit("SERVER_RETURN_MESSAGE", data);
-    // End SERVER_RETURN_MESSAGE
-  });
-  // End CLIENT_SEND_MESSAGE
-
-  // CLIENT_SEND_TYPING
-  socket.on("CLIENT_SEND_TYPING", async (data) => {
-    console.log(data);
-    socket.broadcast.emit("SERVER_RETURN_TYPING", data);
-  });
-  // End CLIENT_SEND_TYPING
-});
+socket();
 // End SocketIO
 
 app.use(methodOverride('_method'));
