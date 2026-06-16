@@ -266,6 +266,35 @@ body {
 /* End Show Alert */
 
 /* Chat */
+.chat {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.chat .inner-head {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat .inner-head .inner-avatar {
+  background: #1877F2;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-block;
+  font-weight: 700;
+  text-align: center;
+  line-height: 32px;
+  color: #fff;
+}
+
+.chat .inner-head .inner-name {
+  display: inline-block;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
 .chat .inner-body {
   padding: 10px;
   max-height: 450px;
@@ -283,6 +312,10 @@ body {
   padding: 5px 10px;
   border-radius: 15px;
   line-height: 1.4;
+
+  /* Thêm 2 dòng này để xử lý tràn chữ */
+  word-break: break-word; 
+  overflow-wrap: break-word;
 }
 
 .chat .inner-outgoing .inner-content {
@@ -318,6 +351,49 @@ body {
   height: 32px;
   padding: 0 10px;
   cursor: pointer;
+}
+
+.chat .inner-body .inner-images img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #efefef;
+  padding: 10px;
+  margin: 0 5px 5px 0;
+  border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+  margin: 0 0 5px 5px;
+}
+
+/* Box nhập images */
+.chat .inner-preview-images {
+  position: relative;
+}
+
+.chat .inner-preview-images .label-container {
+  display: none;
+}
+
+.chat .inner-preview-images .input-container {
+  display: none;
+}
+
+.chat .inner-preview-images .image-preview {
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+}
+
+.chat .inner-preview-images .image-preview-item {
+  width: 90px;
+  background-size: contain;
 }
 /* End Chat */
 
