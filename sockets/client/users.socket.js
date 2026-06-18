@@ -41,6 +41,29 @@ module.exports = (socket) => {
       );
     }
     // Hết Thêm Id của B vào requestFriends của A
+
+    // Lấy độ dài acceptFriends của B trả về cho B
+    const infoUserB = await User.findOne({
+      _id: userId
+    });
+    const lengthAcceptFriends = infoUserB.acceptFriends.length;
+
+    socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", {
+      userId: userId,
+      lengthAcceptFriends: lengthAcceptFriends
+    });
+    // Hết Lấy độ dài acceptFriends của B trả về cho B
+
+    // Lấy info của A trả về cho B
+    const infoUserA = await User.findOne({
+      _id: myUserId
+    }).select("_id avatar fullName");
+
+    socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIENDS", {
+      userId: userId,
+      infoUserA: infoUserA
+    });
+    // Hết Lấy info của A trả về cho B
   });
   // End CLIENT_SEND_ADD_FRIEND
 
@@ -84,6 +107,18 @@ module.exports = (socket) => {
       );
     }
     // Hết Xóa Id của B khỏi requestFriends của A
+
+    // Lấy độ dài acceptFriends của B trả về cho B
+    const infoUserB = await User.findOne({
+      _id: userId
+    });
+    const lengthAcceptFriends = infoUserB.acceptFriends.length;
+
+    socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", {
+      userId: userId,
+      lengthAcceptFriends: lengthAcceptFriends
+    });
+    // Hết Lấy độ dài acceptFriends của B trả về cho B
   });
   // End CLIENT_SEND_CANCEL_FRIEND
 
