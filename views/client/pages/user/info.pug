@@ -7,4 +7,25 @@ block main
       .col-12
         +box-head("Thông tin tài khoản")
 
-        div #{user}
+    .row.mt-4
+      .col-12
+        .card.mb-4
+          .card-header.d-flex.justify-content-between.align-items-center
+            span Thông tin tài khoản
+            a.btn.btn-warning.btn-sm(href=`/user/edit-info/${user.id}`) 
+              i.fa-solid.fa-pen.me-1 
+              | Sửa
+
+          .card-body
+            if (user.avatar)
+              img(
+                src=user.avatar
+                style=`
+                  height: 100px;
+                  margin-bottom: 15px;
+                `
+              )
+            if (user.fullName)
+              p Họ tên: <b>#{user.fullName}</b>
+            if (user.email)
+              p Email: <b>#{user.email}</b>

@@ -92,7 +92,7 @@ module.exports.createPost = async (req, res) => {
   res.redirect(`${systemConfig.prefixAdmin}/accounts`);
 }
 
-// [GET] /admin/products/edit/:id
+// [GET] /admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
   let find = {
     _id: req.params.id,
@@ -116,7 +116,7 @@ module.exports.edit = async (req, res) => {
   }
 }
 
-// [PATCH] /admin/products/edit/:id
+// [PATCH] /admin/accounts/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
 

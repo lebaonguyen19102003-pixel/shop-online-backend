@@ -150,7 +150,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
     Mã OTP để lấy lại mật khẩu là: <b>${otp}</b>. Thời hạn sử dụng là 5 phút.
   `;
   sendMailHelper.sendMail(email, subject, html);
-  
+
   res.redirect(`/user/password/otp?email=${email}`);
 }
 
@@ -227,4 +227,57 @@ module.exports.info = async (req, res) => {
   res.render("client/pages/user/info", {
     titlePage: "Thông tin tài khoản",
   });
+}
+
+// [GET] /user/edit-info/:id
+module.exports.editInfo = async (req, res) => {
+  try {
+    const user = await User.findOne({
+      _id: req.params.id,
+      status: "active",
+      deleted: false
+    });
+
+    res.render("client/pages/user/edit-info", {
+      titlePage: "Trang Sửa Đổi Tài Khoản",
+      user: user
+    });
+  } catch (error) {
+    res.redirect(`/user/info`);
+  }
+}
+
+// [PATCH] /user/edit-info/:id
+module.exports.editInfoPatch = async (req, res) => {
+  const id = req.params.id;
+
+  const emailExist = await User.findOne({
+    _id: { $ne: id },
+    deleted: false,
+    email: req.body.email
+  });
+
+  if (emailExist) {
+    req.flash("error", `Email ${req.body.email} đã tồn tại!`);
+
+    const backUrl = req.get('Referer') || `/user/info`;
+    res.redirect(backUrl);
+
+    return;
+  }
+
+  if (req.body.password) {
+    req.body.password = md5(req.body.password);
+  } else {
+    delete req.body.password;
+  }
+
+  try {
+    await User.updateOne({ _id: id }, req.body);
+    req.flash("success", "Cập nhật thành công!");
+  } catch (error) {
+    req.flash("error", "Cập nhật thất bại!");
+  }
+
+  res.redirect(`/user/info`);
 }
