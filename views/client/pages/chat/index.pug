@@ -21,6 +21,7 @@ block main
   .container.my-3
 
     div(user-info=`${JSON.stringify(user)}`)
+    div(room-chat-id=roomChatId)
 
     include ../../partials/list-btn-users.pug
     

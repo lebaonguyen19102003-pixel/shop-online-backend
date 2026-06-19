@@ -1,13 +1,15 @@
 const Chat = require("../../models/chat.model");
 const User = require("../../models/user.model");
 
-// [GET] /chat
+// [GET] /chat/:roomChatId
 module.exports.index = async (req, res) => {
   const userId = res.locals.user.id;
   const fullName = res.locals.user.fullName;
+  const roomChatId = req.params.roomChatId;
 
   // Lấy data từ database
   const chats = await Chat.find({
+    room_chat_id: roomChatId,
     deleted: false
   });
 
@@ -22,6 +24,7 @@ module.exports.index = async (req, res) => {
 
   res.render("client/pages/chat/index", {
     titlePage: "Chat",
-    chats: chats
+    chats: chats,
+    roomChatId: roomChatId
   });
 }

@@ -14,10 +14,16 @@ const upload = new FileUploadWithPreview('upload-images', {
 });
 // End file-upload-with-preview
 
+// CLIENT_JOIN_ROOM
+const roomChatId = document.querySelector("[room-chat-id]").getAttribute("room-chat-id");
+socket.emit("CLIENT_JOIN_ROOM", roomChatId);
+// End CLIENT_JOIN_ROOM
+
 // CLIENT_SEND_MESSAGE
 const formSendData = document.querySelector(".chat .inner-form");
 if (formSendData) {
   const userInfo = JSON.parse(document.querySelector("[user-info]").getAttribute("user-info"));
+  const roomChatId = document.querySelector("[room-chat-id]").getAttribute("room-chat-id");
 
   formSendData.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -29,7 +35,8 @@ if (formSendData) {
         userId: userInfo._id,
         fullName: userInfo.fullName,
         content: content,
-        images: images
+        images: images,
+        roomChatId: roomChatId
       };
 
       socket.emit("CLIENT_SEND_MESSAGE", data);
@@ -121,9 +128,12 @@ if (buttonIcon) {
 var timeOut;
 
 const showTyping = (userInfo) => {
+  const roomChatId = document.querySelector("[room-chat-id]").getAttribute("room-chat-id");
+
   socket.emit("CLIENT_SEND_TYPING", {
     userId: userInfo._id,
     fullName: userInfo.fullName,
+    roomChatId: roomChatId,
     type: "show"
   });
 
@@ -133,6 +143,7 @@ const showTyping = (userInfo) => {
     socket.emit("CLIENT_SEND_TYPING", {
       userId: userInfo._id,
       fullName: userInfo.fullName,
+      roomChatId: roomChatId,
       type: "hidden"
     });
   }, 3000);
