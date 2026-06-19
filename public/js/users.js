@@ -91,11 +91,14 @@ socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", (data) => {
 
 // SERVER_RETURN_INFO_ACCEPT_FRIENDS
 socket.on("SERVER_RETURN_INFO_ACCEPT_FRIENDS", (data) => {
+
+  // A bấm gửi kết bạn cho B => Vẽ A trong trang /accept của B
   const dataUsersAccept = document.querySelector(`[data-users-accept="${data.userId}"]`);
   if (dataUsersAccept) {
     // Vẽ user ra giao diện
     const div = document.createElement("div");
     div.classList.add("col-6");
+    div.setAttribute("user-id", data.infoUserA._id);
 
     div.innerHTML = `
       <div class="box-user">
@@ -154,5 +157,41 @@ socket.on("SERVER_RETURN_INFO_ACCEPT_FRIENDS", (data) => {
     acceptFriend(btnAcceptFriend);
     // Hết Chấp nhận yêu cầu kết bạn
   }
+  // Hết A bấm gửi kết bạn cho B => Vẽ A trong trang /accept của B
+
+  // A bấm gửi kết bạn cho B => Xóa A trong trang /not-friend của B
+  const dataUsersNotFriend = document.querySelector(`[data-users-not-friend="${data.userId}"]`);
+  if (dataUsersNotFriend) {
+    const boxUserRemove = dataUsersNotFriend.querySelector(`[user-id="${data.infoUserA._id}"]`);
+    if (boxUserRemove) {
+      dataUsersNotFriend.removeChild(boxUserRemove);
+    }
+  }
+  // Hết A bấm gửi kết bạn cho B => Xóa A trong trang /not-friend của B
 });
 // End SERVER_RETURN_INFO_ACCEPT_FRIENDS
+
+// SERVER_RETURN_USER_ID_CANCEL_FRIENDS
+socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIENDS", (data) => {
+  const dataUsersAccept = document.querySelector(`[data-users-accept="${data.userId}"]`);
+  if (dataUsersAccept) {
+    const boxUserRemove = dataUsersAccept.querySelector(`[user-id="${data.userIdA}"]`);
+    if (boxUserRemove) {
+      dataUsersAccept.removeChild(boxUserRemove);
+    }
+  }
+});
+// End SERVER_RETURN_USER_ID_CANCEL_FRIENDS
+
+// SERVER_RETURN_USER_STATUS_ONLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
+  const dataUsersFriend = document.querySelector(`[data-users-friends="${myUserId}"]`);
+  if (dataUsersFriend) {
+    const boxUser = dataUsersFriend.querySelector(`[user-id="${data.userId}"]`);
+    if (boxUser) {
+      const boxStatus = boxUser.querySelector("[status]");
+      boxStatus.setAttribute("status", data.status);
+    }
+  }
+});
+// End SERVER_RETURN_USER_STATUS_ONLINE

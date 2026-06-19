@@ -119,6 +119,13 @@ module.exports = (socket) => {
       lengthAcceptFriends: lengthAcceptFriends
     });
     // Hết Lấy độ dài acceptFriends của B trả về cho B
+
+    // Lấy Id của A trả về cho B
+    socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIENDS", {
+      userId: userId,
+      userIdA: myUserId
+    });
+    // Hết Lấy Id của A trả về cho B
   });
   // End CLIENT_SEND_CANCEL_FRIEND
 
