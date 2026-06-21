@@ -58,6 +58,8 @@ module.exports = () => {
 
           // Nếu sau 3 giây mà hàm này vẫn được chạy, chứng tỏ user đã tắt hẳn tab 
           // chứ không phải là bấm chuyển trang (vì nếu chuyển trang thì đã bị clearTimeout ở Bước 1)
+          await User.updateOne({ _id: userId }, { statusOnline: "offline" });
+
           socket.broadcast.emit("SERVER_RETURN_USER_STATUS_ONLINE", {
             userId: userId,
             status: "offline"
