@@ -1,4 +1,4 @@
-const myUserId = document.querySelector("[my-id]").getAttribute("my-id");
+const myUserId = document.querySelector("[user-has-entered]").getAttribute("user-has-entered");
 
 // Chức năng gửi yêu cầu
 const listBtnAddFriend = document.querySelectorAll("[btn-add-friend]");
@@ -182,16 +182,3 @@ socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIENDS", (data) => {
   }
 });
 // End SERVER_RETURN_USER_ID_CANCEL_FRIENDS
-
-// SERVER_RETURN_USER_STATUS_ONLINE
-socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
-  const dataUsersFriend = document.querySelector(`[data-users-friends="${myUserId}"]`);
-  if (dataUsersFriend) {
-    const boxUser = dataUsersFriend.querySelector(`[user-id="${data.userId}"]`);
-    if (boxUser) {
-      const boxStatus = boxUser.querySelector("[status]");
-      boxStatus.setAttribute("status", data.status);
-    }
-  }
-});
-// End SERVER_RETURN_USER_STATUS_ONLINE

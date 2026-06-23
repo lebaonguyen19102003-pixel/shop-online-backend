@@ -19,7 +19,6 @@ const routeAdmin = require("./routes/admin/index.route");
 const route = require("./routes/client/index.route");
 
 const socket = require("./sockets/client/index.socket");
-const socketAuth = require("./sockets/client/auth.socket");
 
 database.connect();
 
@@ -32,7 +31,6 @@ const io = new Server(server);
 global._io = io;
 
 socket();
-socketAuth();
 // End SocketIO
 
 app.use(methodOverride('_method'));

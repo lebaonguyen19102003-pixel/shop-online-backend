@@ -1,4 +1,5 @@
 const Chat = require("../../models/chat.model");
+const User = require("../../models/user.model");
 
 const uploadToCloudinary = require("../../helpers/uploadToCloudinary");
 

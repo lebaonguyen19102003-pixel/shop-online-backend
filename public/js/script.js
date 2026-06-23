@@ -28,3 +28,18 @@ if(uploadImage) {
   });
 }
 // End Upload Image
+
+// SERVER_RETURN_USER_STATUS_ONLINE
+socket.on("SERVER_RETURN_USER_STATUS_ONLINE", (data) => {
+  const myUserId = document.querySelector("[user-has-entered]").getAttribute("user-has-entered");
+
+  const dataUsersFriend = document.querySelector(`[data-users-friends="${myUserId}"]`);
+  if (dataUsersFriend) {
+    const boxUser = dataUsersFriend.querySelector(`[user-id="${data.userId}"]`);
+    if (boxUser) {
+      const boxStatus = boxUser.querySelector("[status]");
+      boxStatus.setAttribute("status", data.status);
+    }
+  }
+});
+// End SERVER_RETURN_USER_STATUS_ONLINE

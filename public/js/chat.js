@@ -16,7 +16,9 @@ const upload = new FileUploadWithPreview('upload-images', {
 
 // CLIENT_JOIN_ROOM
 const roomChatId = document.querySelector("[room-chat-id]").getAttribute("room-chat-id");
-socket.emit("CLIENT_JOIN_ROOM", roomChatId);
+if (roomChatId) {
+  socket.emit("CLIENT_JOIN_ROOM", roomChatId);
+}
 // End CLIENT_JOIN_ROOM
 
 // CLIENT_SEND_MESSAGE
